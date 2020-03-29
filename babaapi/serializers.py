@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User,Group
 from rest_framework import serializers
 from babaapi.models import Work, Todo
+from datetime import datetime
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -18,9 +19,12 @@ class TimestampField(serializers.Field):
     """
 
     def to_representation(self, value):
-        return value.timestamp()
+        print("to_representation: %s, %s" % (value, type(value)))
+        # return value.timestamp()
+        return value.strftime("%Y-%m-%d %H:%M:%S")
 
     def to_internal_value(self, data):
+        print("to_internal_value: %s, %s" % (data, type(data)))
         timestamp = float(data)
         no_tz = datetime.utcfromtimestamp(timestamp)
         return no_tz.astimezone(timezone(TIME_ZONE))
@@ -32,34 +36,16 @@ class WorkSerializer(serializers.ModelSerializer):
     class Meta:
         # 此处指明本序列化对应的model
         model = Work
-        # 此处指明从model对应数据表中读出哪些字段
-        # id字段我们在model中并没指明应该是框架自己创建的
-        # 另外我们还创建了created字段，但这里我们不加读取他，当然你要读取加上即可
         # fields = ('f_id', 'f_content', 'f_create_time')
         # fields = '__all__'
 
 class TodoSerializer(serializers.ModelSerializer):
-    # create = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
-    # create = TimestampField(source='create')
+    create_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
+    update_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
+    # create = TimestampField(source='create_time')
 
     class Meta:
         # 此处指明本序列化对应的model
         model = Todo
-        # 此处指明从model对应数据表中读出哪些字段
-        # id字段我们在model中并没指明应该是框架自己创建的
-        # 另外我们还创建了created字段，但这里我们不加读取他，当然你要读取加上即可
-        # fields = ('f_id', 'f_content', 'f_create_time')
-        fields = '__all__'
-
-class ApiTodoSerializer(serializers.HyperlinkedModelSerializer):
-    # create = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
-    # create = TimestampField(source='create')
-
-    class Meta:
-        # 此处指明本序列化对应的model
-        model = Todo
-        # 此处指明从model对应数据表中读出哪些字段
-        # id字段我们在model中并没指明应该是框架自己创建的
-        # 另外我们还创建了created字段，但这里我们不加读取他，当然你要读取加上即可
         # fields = ('f_id', 'f_content', 'f_create_time')
         fields = '__all__'

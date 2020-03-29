@@ -14,7 +14,7 @@
 > pip3 install markdown
 
 api文档管理
-> pip3 install django-rest-swagger
+> pip3 install drf-yasg
 
 ## django命令
 
@@ -56,13 +56,21 @@ api文档管理
 查看表
 > .schema
 
+查看当前配置
+> .show
+
+调整展示
+> .mode column
+
 执行sql跟mysql的一样
 
-## [管理后台](http://127.0.0.1:8000/admin)
+## [管理后台](http://127.0.0.1:8000/admin/)
 
 ## [API Django文档](http://127.0.0.1:8000/)
 
-## [API Swagger文档](http://127.0.0.1:8000/docs)
+## [API drf文档](http://127.0.0.1:8000/docs)
+
+## [API Swagger文档](http://127.0.0.1:8000/swagger)
 
 ## 参考资料
 - [CSDN Django](https://blog.csdn.net/m0_37193944/article/details/89477424)
